@@ -1,0 +1,397 @@
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e13;
+  --panel: #10161e;
+  --panel2: #141b24;
+  --border: #28313c;
+  --text: #e6edf3;
+  --muted: #84909e;
+  --accent: #7d9cff;
+  --hover: #1b2530;
+  --plot-bg: #ffffff;
+}
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+button, input, select { font: inherit; }
+
+button, select, input {
+  outline: none;
+}
+button {
+  color: var(--text);
+  background: #18212b;
+  border: 1px solid #35414e;
+  border-radius: 6px;
+  padding: 7px 11px;
+  cursor: pointer;
+}
+
+button:hover { background: #222e3a; }
+
+.app {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 305px;
+  flex: 0 0 305px;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  padding: 20px 18px 17px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand-title {
+  font-size: 19px;
+  font-weight: 650;
+}
+
+.brand-subtitle {
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.search-wrap {
+  padding: 13px 13px 8px;
+}
+
+#sourceSearch {
+  width: 100%;
+  background: #0b1016;
+  color: var(--text);
+  border: 1px solid #34404c;
+  border-radius: 7px;
+  padding: 10px 11px;
+  font-size: 13px;
+}
+
+#sourceSearch:focus { border-color: var(--accent); }
+
+.source-summary {
+  padding: 3px 15px 9px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.source-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.source-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid #1d252e;
+  cursor: pointer;
+}
+
+.source-item:hover { background: var(--hover); }
+
+.source-item.active {
+  background: #202b38;
+  border-left: 3px solid var(--accent);
+  padding-left: 11px;
+}
+
+.source-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.source-meta {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.main {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  min-height: 72px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid var(--border);
+  background: #0f151c;
+}
+
+.object-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.object-subtitle {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 7px;
+}
+
+.info-panel {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+
+.info-item {
+  padding: 10px 18px;
+  border-right: 1px solid var(--border);
+}
+
+.info-item span {
+  display: block;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-size: 9px;
+}
+
+.info-item strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 550;
+}
+
+.controls {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border);
+  background: #0e141b;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.control-group label,
+.check-control {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+select {
+  min-width: 140px;
+  padding: 7px 9px;
+  border-radius: 6px;
+  border: 1px solid #35414e;
+  background: #111820;
+  color: var(--text);
+}
+
+.observation-group select { min-width: 260px; }
+
+.check-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  cursor: pointer;
+}
+
+.check-control input { accent-color: var(--accent); }
+
+/* ---- Scrollable stack of spectra (one card per observation) ---- */
+
+.main { min-height: 0; }
+
+.spectra-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 18px 18px;
+  background: var(--bg);
+}
+
+#spectraContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.spec-card {
+  background: var(--plot-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  color: #1a1f26;
+}
+
+.spec-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #f3f5f8;
+  border-bottom: 1px solid #dde2e8;
+}
+
+.spec-index {
+  min-width: 26px;
+  padding: 2px 9px;
+  border-radius: 12px;
+  background: #3d5afe;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
+  text-align: center;
+}
+
+.spec-meta {
+  color: #1a1f26;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.spec-plot-wrap {
+  position: relative;
+  background: var(--plot-bg);
+  padding: 6px 10px 0;
+}
+
+.spec-plot {
+  width: 100%;
+  height: 420px;
+  background: var(--plot-bg);
+}
+
+.spec-loading {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, .85);
+  color: #3b4653;
+  font-size: 13px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #c5cbd3;
+  border-top-color: #3d5afe;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spec-error,
+.error-box {
+  display: none;
+  padding: 12px;
+  border: 1px solid #e5a9b0;
+  border-radius: 7px;
+  background: #fdecee;
+  color: #9b1c2c;
+  font-size: 12px;
+}
+
+.spec-error {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 16px;
+  z-index: 5;
+}
+
+.error-box { margin-bottom: 12px; }
+
+/* Per-plot axis range controls */
+.range-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 8px 14px 10px;
+  border-top: 1px solid #e3e7ec;
+  background: #f8f9fb;
+}
+
+.range-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #5b6673;
+  font-size: 10px;
+}
+
+.range-row input {
+  width: 100px;
+  padding: 5px 7px;
+  border: 1px solid #c5cbd3;
+  border-radius: 5px;
+  background: #fff;
+  color: #1a1f26;
+  font-size: 12px;
+}
+
+.range-row input:focus { border-color: #3d5afe; }
+
+.range-row button {
+  padding: 5px 10px;
+  background: #fff;
+  color: #1a1f26;
+  border: 1px solid #c5cbd3;
+  font-size: 12px;
+}
+
+.range-row button:hover { background: #eef1f5; }
+
+@media (max-width: 800px) {
+  .sidebar { width: 240px; flex-basis: 240px; }
+  .info-panel { grid-template-columns: repeat(2, 1fr); }
+  .observation-group select { min-width: 190px; }
+}
+
+@media (max-width: 620px) {
+  .app { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    flex: 0 0 220px;
+  }
+  .source-list {
+    display: flex;
+    overflow-x: auto;
+  }
+  .source-item { min-width: 190px; }
+  .topbar { align-items: flex-start; }
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDSS Spectral Viewer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-title">SDSS Spectral Viewer</div>
+      <div class="brand-subtitle">Interactive AGN spectrum browser</div>
+    </div>
+
+    <div class="search-wrap">
+      <input id="sourceSearch" type="search" placeholder="Search SDSS name..." autocomplete="off">
+    </div>
+
+    <div class="source-summary"><span id="sourceCount">0</span> sources</div>
+    <div id="sourceList" class="source-list"></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div id="objectName" class="object-name">Select an SDSS source</div>
+        <div id="objectSubtitle" class="object-subtitle">Interactive spectral viewer</div>
+      </div>
+      <div class="nav-buttons">
+        <button id="previousButton" title="Previous source (Left Arrow)">← Previous</button>
+        <button id="nextButton" title="Next source (Right Arrow)">Next →</button>
+      </div>
+    </header>
+
+    <section class="info-panel">
+      <div class="info-item"><span>RA</span><strong id="ra">—</strong></div>
+      <div class="info-item"><span>DEC</span><strong id="dec">—</strong></div>
+      <div class="info-item"><span>Redshift</span><strong id="redshift">—</strong></div>
+      <div class="info-item"><span>Spectra</span><strong id="spectrumCount">—</strong></div>
+    </section>
+
+    <section class="controls">
+      <div class="control-group">
+        <label for="wavelengthMode">Frame</label>
+        <select id="wavelengthMode">
+          <option value="rest">Rest frame</option>
+          <option value="observed">Observed frame</option>
+                  </select>
+      </div>
+
+      <div class="control-group">
+        <label for="fluxMode">Flux</label>
+        <select id="fluxMode">
+          <option value="linear">Linear</option>
+          <option value="log">Log10</option>
+        </select>
+      </div>
+
+      <label class="check-control">
+        <input id="showError" type="checkbox" checked>
+        <span>Uncertainty</span>
+      </label>
+
+      <label class="check-control">
+        <input id="showLines" type="checkbox">
+        <span>Emission lines</span>
+      </label>
+
+      <button id="resetZoom">Reset all zoom</button>
+    </section>
+
+    <!-- All observations of the selected source, stacked; this area scrolls -->
+    <section id="spectraScroll" class="spectra-scroll">
+      <div id="errorBox" class="error-box"></div>
+      <div id="spectraContainer"></div>
+    </section>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
